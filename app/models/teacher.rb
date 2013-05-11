@@ -1,4 +1,3 @@
-
 require_relative '../../db/config'
 
 # implement your Teacher model here

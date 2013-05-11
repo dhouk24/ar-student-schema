@@ -28,6 +28,28 @@ task "db:populate" do
   StudentsImporter.import
 end
 
+desc "generate a new migration"
+task "db:generate:migration", :name do |t, args|
+  timestamp = Time.now.strftime('%Y%m%d%H%M%S')
+  name = args[:name]
+  # touch "#{timestamp}_#{name}.rb"a
+  unless File.exists?("#{timestamp}_#{name}.rb")
+    File.open("db/migrate/#{timestamp}_create_#{name}.rb", 'w') do |f|
+      f.write("
+
+class Create#{name.capitalize} < ActiveRecord::Migration
+  def change
+    create_table :#{name} do |t|
+
+      t.timestamps
+
+    end
+  end
+end")
+    end
+  end
+end
+
 desc 'Retrieves the current schema version number'
 task "db:version" do
   puts "Current version: #{ActiveRecord::Migrator.current_version}"
@@ -37,3 +59,4 @@ desc "Run the specs"
 RSpec::Core::RakeTask.new(:specs)
 
 task :default  => :specs
+
