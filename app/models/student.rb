@@ -15,6 +15,7 @@ class Student < ActiveRecord::Base
 		now = Time.now
 		age = now.year - birthday.year
 		age -= 1 if now.yday < birthday.yday
+		age
 	end
 
 end
