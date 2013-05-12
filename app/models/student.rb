@@ -1,7 +1,10 @@
+
 require_relative '../../db/config'
 
-# implement your Student model here
 class Student < ActiveRecord::Base
+	has_many :teachers,
+		:through => :courses
+
 	validates :email, :format => {:with => /\w.+@.+\..{2}/, :message => "Only legit emails welcome"}, uniqueness: true
 	validates :age, :numericality => {:greater_than_or_equal_to => 5}
 	validates :phone, :format => {:with => /\d{3}.*\d{3}.*\d{4}.*/, :message => "Only valid phone numbers please"}
